@@ -1,5 +1,5 @@
 {
-  "name": "bfx-facs-base",
+  "name": "bfx-facs-db-mongo",
   "version": "0.0.1",
   "private": false,
   "description": "Bitfinex Facility",
@@ -12,7 +12,8 @@
   ],
   "dependencies": {
     "async": "~2.4.0",
-    "lodash": "~4.17.4"
+    "lodash": "~4.17.4",
+    "mongodb": "^2.2.10"
   },
   "engine": {
     "node": ">=6.0"
@@ -32,12 +33,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitfinexcom/bfx-facs-base.git"
+    "url": "git+https://github.com/bitfinexcom/bfx-facs-db-mongo.git"
   },
   "bugs": {
-    "url": "https://github.com/bitfinexcom/bfx-facs-base/issues"
+    "url": "https://github.com/bitfinexcom/bfx-facs-db-mongo/issues"
   },
-  "homepage": "https://github.com/bitfinexcom/bfx-facs-base",
+  "homepage": "https://github.com/bitfinexcom/bfx-facs-db-mongo",
   "maintainers": [
     {
       "name": "prdn",
