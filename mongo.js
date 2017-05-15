@@ -6,7 +6,7 @@ const Mongo = require('mongodb').MongoClient
 const Facility = require('./base')
 const fmt = require('util').format
 
-function client(conf, label, cb) {
+function client (conf, label, cb) {
   const url = fmt(
     'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=50',
     conf.user, conf.password, conf.host, conf.port, conf.database
@@ -15,17 +15,16 @@ function client(conf, label, cb) {
 }
 
 class MongoFacility extends Facility {
-
-  constructor(caller, opts, ctx) {
+  constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
     this.name = 'mongo'
     this._hasConf = true
-    
+
     this.init()
   }
 
-  _start(cb) {
+  _start (cb) {
     async.series([
       next => { super._start(next) },
       next => {
@@ -42,7 +41,7 @@ class MongoFacility extends Facility {
     ], cb)
   }
 
-  _stop(cb) {
+  _stop (cb) {
     async.series([
       next => { super._stop(next) },
       next => {
@@ -54,4 +53,4 @@ class MongoFacility extends Facility {
   }
 }
 
-module.exports = MongoFacility 
+module.exports = MongoFacility
