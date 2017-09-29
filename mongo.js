@@ -8,7 +8,7 @@ const fmt = require('util').format
 
 function client (conf, label, cb) {
   const url = fmt(
-    'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 100),
+    'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 20),
     conf.user, conf.password, conf.host, conf.port, conf.database
   )
   Mongo.connect(url, cb)
