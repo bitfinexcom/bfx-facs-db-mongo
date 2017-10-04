@@ -3,7 +3,7 @@
 const _ = require('lodash')
 const async = require('async')
 const Mongo = require('mongodb').MongoClient
-const Facility = require('./base')
+const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
 function client (conf, label, cb) {
@@ -14,7 +14,7 @@ function client (conf, label, cb) {
   Mongo.connect(url, cb)
 }
 
-class MongoFacility extends Facility {
+class MongoFacility extends Base {
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 

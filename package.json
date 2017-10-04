@@ -7,6 +7,7 @@
     "name": "prdn",
     "email": "paolo@bitfinex.com"
   },
+  "main": "index.js",
   "keywords": [
     "bitfinex"
   ],
@@ -16,29 +17,13 @@
     "mongodb": "^2.2.10"
   },
   "engine": {
-    "node": ">=6.0"
-  },
-  "main": "index.js",
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
-  "devDependencies": {
-    "chai": "~3.2.0",
-    "mocha": "~2.2.5"
-  },
-  "scripts": {
-    "test": "make test"
+    "node": ">=8.0"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitfinexcom/bfx-facs-db-mongo.git"
   },
-  "bugs": {
-    "url": "https://github.com/bitfinexcom/bfx-facs-db-mongo/issues"
-  },
-  "homepage": "https://github.com/bitfinexcom/bfx-facs-db-mongo",
   "maintainers": [
     {
       "name": "prdn",
