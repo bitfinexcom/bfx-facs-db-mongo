@@ -13,6 +13,7 @@
   ],
   "dependencies": {
     "async": "~2.4.0",
+    "bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
     "lodash": "~4.17.4",
     "mongodb": "^2.2.10"
   },
