@@ -23,7 +23,7 @@ class MongoFacility extends Base {
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
-    this.name = 'mongo'
+    this.name = 'db-mongo'
     this._hasConf = true
 
     this.init()
