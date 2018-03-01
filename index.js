@@ -36,10 +36,10 @@ class MongoFacility extends Base {
         client(_.pick(
           this.conf,
           ['user', 'password', 'database', 'host', 'port', 'rs']
-        ), null, (err, db) => {
+        ), null, (err, cli) => {
           if (err) return next(err)
 
-          this.cli = db
+          this.cli = cli.db(this.conf.database)
           next()
         })
       }
