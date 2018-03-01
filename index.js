@@ -39,7 +39,8 @@ class MongoFacility extends Base {
         ), null, (err, cli) => {
           if (err) return next(err)
 
-          this.cli = cli.db(this.conf.database)
+          this.cli = cli
+          this.db = cli.db(this.conf.database)
           next()
         })
       }
@@ -52,6 +53,7 @@ class MongoFacility extends Base {
       next => {
         this.cli.close()
         delete this.cli
+        delete this.db
         next()
       }
     ], cb)
