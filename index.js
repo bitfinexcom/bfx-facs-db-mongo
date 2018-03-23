@@ -3,6 +3,7 @@
 const _ = require('lodash')
 const async = require('async')
 const Mongo = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID
 const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
@@ -27,6 +28,10 @@ class MongoFacility extends Base {
     this._hasConf = true
 
     this.init()
+  }
+
+  getObjectID (id) {
+    return new ObjectID(id)
   }
 
   _start (cb) {
