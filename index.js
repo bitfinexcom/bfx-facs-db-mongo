@@ -40,7 +40,7 @@ class MongoFacility extends Base {
       next => {
         client(_.pick(
           this.conf,
-          ['user', 'password', 'database', 'host', 'port', 'rs']
+          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize']
         ), null, (err, cli) => {
           if (err) return next(err)
 
