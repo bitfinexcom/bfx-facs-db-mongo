@@ -12,15 +12,15 @@
     "bitfinex"
   ],
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.0",
     "bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "mongodb": "^3.0.6"
   },
   "engine": {
     "node": ">=8.0"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitfinexcom/bfx-facs-db-mongo.git"
