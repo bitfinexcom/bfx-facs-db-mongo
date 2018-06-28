@@ -8,18 +8,16 @@ const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
 function client (conf, label, cb) {
-  let url = fmt(
-    'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 150),
-    conf.user, conf.password, conf.host, conf.port, conf.database
-  )
+  let url = (process.env.MONGO_DB_TEST_URI)
+    ? process.env.MONGO_DB_TEST_URI
+    : fmt(
+      'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 150),
+      conf.user, conf.password, conf.host, conf.port, conf.database
+    )
 
-  if (conf.rs) {
+  if (conf.rs && !process.env.MONGO_DB_TEST_URI) {
     url += `&replicaSet=${conf.rs}`
   }
-  if (process.env.MONGO_DB_TEST_URI) {
-    url = MONGO_DB_TEST_URI
-  }
-
   Mongo.connect(url, cb)
 }
 
