@@ -16,6 +16,9 @@ function client (conf, label, cb) {
   if (conf.rs) {
     url += `&replicaSet=${conf.rs}`
   }
+  if (process.env.MONGO_DB_TEST_URI) {
+    url = MONGO_DB_TEST_URL
+  }
 
   Mongo.connect(url, cb)
 }
