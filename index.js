@@ -7,16 +7,17 @@ const ObjectID = require('mongodb').ObjectID
 const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
-function client (conf, label, cb) {
-  let url = fmt(
-    'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 150),
-    conf.user, conf.password, conf.host, conf.port, conf.database
-  )
+function client (conf, opts, cb) {
+  let url = (opts.mongoUri)
+    ? opts.mongoUri
+    : fmt(
+      'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 150),
+      conf.user, conf.password, conf.host, conf.port, conf.database
+    )
 
-  if (conf.rs) {
+  if (conf.rs && !opts.mongoUri) {
     url += `&replicaSet=${conf.rs}`
   }
-
   Mongo.connect(url, cb)
 }
 
@@ -41,7 +42,7 @@ class MongoFacility extends Base {
         client(_.pick(
           this.conf,
           ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize']
-        ), null, (err, cli) => {
+        ), this.opts, (err, cli) => {
           if (err) return next(err)
 
           this.cli = cli
