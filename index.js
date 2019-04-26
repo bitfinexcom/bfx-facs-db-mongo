@@ -2,8 +2,10 @@
 
 const _ = require('lodash')
 const async = require('async')
-const Mongo = require('mongodb').MongoClient
-const ObjectID = require('mongodb').ObjectID
+
+const Driver = require('mongodb')
+const { MongoClient, ObjectID } = Driver
+
 const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
@@ -18,7 +20,8 @@ function client (conf, opts, cb) {
   if (conf.rs && !opts.mongoUri) {
     url += `&replicaSet=${conf.rs}`
   }
-  Mongo.connect(url, cb)
+
+  MongoClient.connect(url, cb)
 }
 
 class MongoFacility extends Base {
@@ -29,6 +32,10 @@ class MongoFacility extends Base {
     this._hasConf = true
 
     this.init()
+  }
+
+  getDriver () {
+    return Driver
   }
 
   getObjectID (id) {
