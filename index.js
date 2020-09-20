@@ -21,6 +21,10 @@ function client (conf, opts, cb) {
     url += `&replicaSet=${conf.rs}`
   }
 
+  if (conf.authSource && !opts.mongoUri) {
+    url += `&authSource=${conf.authSource}`
+  }
+
   MongoClient.connect(url, cb)
 }
 
@@ -48,7 +52,7 @@ class MongoFacility extends Base {
       next => {
         client(_.pick(
           this.conf,
-          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize']
+          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource']
         ), this.opts, (err, cli) => {
           if (err) return next(err)
 
