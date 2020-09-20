@@ -2,7 +2,7 @@
   "name": "bfx-facs-db-mongo",
   "version": "0.0.1",
   "private": false,
-  "description": "Bitfinex Facility",
+  "description": "Bitfinex MongoDB Facility",
   "author": {
     "name": "prdn",
     "email": "paolo@bitfinex.com"
