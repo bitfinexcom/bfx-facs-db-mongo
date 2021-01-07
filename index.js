@@ -17,6 +17,10 @@ function client (conf, opts, cb) {
       conf.user, conf.password, conf.host, conf.port, conf.database
     )
 
+  if (conf.socketTimeoutMS && !opts.mongoUri) {
+    url += `&socketTimeoutMS=${conf.socketTimeoutMS}`
+  }
+  
   if (conf.rs && !opts.mongoUri) {
     url += `&replicaSet=${conf.rs}`
   }
