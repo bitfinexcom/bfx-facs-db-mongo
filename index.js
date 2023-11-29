@@ -9,13 +9,25 @@ const { MongoClient, ObjectID } = Driver
 const Base = require('bfx-facs-base')
 const fmt = require('util').format
 
+function getFormattedURI (conf) {
+  const suffix = `authMechanism=DEFAULT&maxPoolSize=${(conf.maxPoolSize || 150)}`
+  if (conf.srv) {
+    return fmt(
+      `mongodb+srv://%s:%s@%s/%s?${suffix}`,
+      conf.user, conf.password, conf.host, conf.database
+    )
+  }
+
+  return fmt(
+    `mongodb://%s:%s@%s:%s/%s?${suffix}`,
+    conf.user, conf.password, conf.host, conf.port, conf.database
+  )
+}
+
 function client (conf, opts, cb) {
   let url = (opts.mongoUri)
     ? opts.mongoUri
-    : fmt(
-      'mongodb://%s:%s@%s:%s/%s?authMechanism=DEFAULT&maxPoolSize=' + (conf.maxPoolSize || 150),
-      conf.user, conf.password, conf.host, conf.port, conf.database
-    )
+    : getFormattedURI(conf)
 
   if (conf.socketTimeoutMS && !opts.mongoUri) {
     url += `&socketTimeoutMS=${conf.socketTimeoutMS}`
@@ -56,7 +68,7 @@ class MongoFacility extends Base {
       next => {
         client(_.pick(
           this.conf,
-          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS']
+          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv']
         ), this.opts, (err, cli) => {
           if (err) return next(err)
 
