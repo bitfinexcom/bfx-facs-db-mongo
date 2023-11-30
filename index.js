@@ -11,16 +11,11 @@ const fmt = require('util').format
 
 function getFormattedURI (conf) {
   const suffix = `authMechanism=DEFAULT&maxPoolSize=${(conf.maxPoolSize || 150)}`
-  if (conf.srv) {
-    return fmt(
-      `mongodb+srv://%s:%s@%s/%s?${suffix}`,
-      conf.user, conf.password, conf.host, conf.database
-    )
-  }
 
+  const { srv } = conf
   return fmt(
-    `mongodb://%s:%s@%s:%s/%s?${suffix}`,
-    conf.user, conf.password, conf.host, conf.port, conf.database
+    `mongodb${srv ? '+srv' : ''}://%s:%s@%s%s/%s?${suffix}`,
+    conf.user, conf.password, conf.host, srv ? '' : `:${conf.port}`, conf.database
   )
 }
 
