@@ -26,4 +26,17 @@ or
     }
 }
 ```
+or to send config in SRV connection format
+```
+{
+  "m0": {
+    "host": "127.0.0.1",
+    "srv": true,
+    "user": "",
+    "password": "",
+    "database": "",
+    "authSource": "admin"
+  }
+}
+```
 
