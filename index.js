@@ -27,7 +27,7 @@ function client (conf, opts, cb) {
   if (conf.socketTimeoutMS && !opts.mongoUri) {
     url += `&socketTimeoutMS=${conf.socketTimeoutMS}`
   }
-  
+
   if (conf.rs && !opts.mongoUri) {
     url += `&replicaSet=${conf.rs}`
   }
@@ -61,16 +61,34 @@ class MongoFacility extends Base {
     async.series([
       next => { super._start(next) },
       next => {
-        client(_.pick(
+        const connConf = _.pick(
           this.conf,
           ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv']
-        ), this.opts, (err, cli) => {
+        )
+        client(connConf, this.opts, (err, cli) => {
           if (err) return next(err)
 
           this.cli = cli
           this.db = cli.db(this.conf.database)
           next()
         })
+      },
+      next => {
+        if (!Array.isArray(this.opts.createIndexes)) {
+          return next()
+        }
+        for (const ix of this.opts.createIndexes) {
+          if (!ix.collection || !_.isString(ix.collection) || !_.isPlainObject(ix.spec)) {
+            throw new Error('Mongodb index must have "collection" and "spec"')
+          }
+        }
+        async.mapSeries(
+          this.opts.indexes,
+          (ix, next) => {
+            this.db.collection(ix.collection).createIndex(ix.spec, ix.opts || {}, next)
+          },
+          cb
+        )
       }
     ], cb)
   }
