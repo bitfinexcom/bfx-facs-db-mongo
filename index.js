@@ -39,7 +39,20 @@ function client (conf, opts) {
   return MongoClient.connect(url)
 }
 
+/**
+ * @typedef {Object} MongoIndex
+ * @property {Object} spec
+ * @property {Object} opts
+ * @property {Object} [flags]
+ * @property {Boolean} [flags.forceForeground] Move index creation to foreground
+ */
 class MongoFacility extends Base {
+  /**
+   * @param {Object} caller
+   * @param {Object} opts
+   * @param {Array<MongoIndex>} opts.createIndexes
+   * @param {Object} ctx
+   */
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
@@ -77,7 +90,8 @@ class MongoFacility extends Base {
           }
         }
         for (const ix of this.opts.createIndexes) {
-          await this.db.collection(ix.collection).createIndex(ix.spec, ix.opts || {})
+          const opts = { ...(ix.opts || {}), background: !ix?.flags?.forceForeground }
+          await this.db.collection(ix.collection).createIndex(ix.spec, opts)
         }
       }
     ], cb)
