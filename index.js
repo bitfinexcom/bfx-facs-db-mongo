@@ -19,7 +19,7 @@ function getFormattedURI (conf) {
   )
 }
 
-function client (conf, opts, cb) {
+function client (conf, opts) {
   let url = (opts.mongoUri)
     ? opts.mongoUri
     : getFormattedURI(conf)
@@ -36,7 +36,7 @@ function client (conf, opts, cb) {
     url += `&authSource=${conf.authSource}`
   }
 
-  MongoClient.connect(url, cb)
+  return MongoClient.connect(url)
 }
 
 class MongoFacility extends Base {
@@ -60,35 +60,25 @@ class MongoFacility extends Base {
   _start (cb) {
     async.series([
       next => { super._start(next) },
-      next => {
+      async () => {
         const connConf = _.pick(
           this.conf,
           ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv']
         )
-        client(connConf, this.opts, (err, cli) => {
-          if (err) return next(err)
+        this.cli = await client(connConf, this.opts)
+        this.db = this.cli.db(this.conf.database)
 
-          this.cli = cli
-          this.db = cli.db(this.conf.database)
-          next()
-        })
-      },
-      next => {
         if (!Array.isArray(this.opts.createIndexes)) {
-          return next()
+          return
         }
         for (const ix of this.opts.createIndexes) {
           if (!ix.collection || !_.isString(ix.collection) || !_.isPlainObject(ix.spec)) {
             throw new Error('Mongodb index must have "collection" and "spec"')
           }
         }
-        async.mapSeries(
-          this.opts.indexes,
-          (ix, next) => {
-            this.db.collection(ix.collection).createIndex(ix.spec, ix.opts || {}, next)
-          },
-          cb
-        )
+        for (const ix of this.opts.createIndexes) {
+          await this.db.collection(ix.collection).createIndex(ix.spec, ix.opts || {})
+        }
       }
     ], cb)
   }
