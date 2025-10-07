@@ -19,20 +19,20 @@ function getFormattedURI (conf) {
   )
 }
 
-function client (conf, opts) {
-  let url = (opts.mongoUri)
-    ? opts.mongoUri
+function client (conf) {
+  let url = (conf.uri)
+    ? conf.uri
     : getFormattedURI(conf)
 
-  if (conf.socketTimeoutMS && !opts.mongoUri) {
+  if (conf.socketTimeoutMS && !conf.uri) {
     url += `&socketTimeoutMS=${conf.socketTimeoutMS}`
   }
 
-  if (conf.rs && !opts.mongoUri) {
+  if (conf.rs && !conf.uri) {
     url += `&replicaSet=${conf.rs}`
   }
 
-  if (conf.authSource && !opts.mongoUri) {
+  if (conf.authSource && !conf.uri) {
     url += `&authSource=${conf.authSource}`
   }
 
@@ -76,9 +76,13 @@ class MongoFacility extends Base {
       async () => {
         const connConf = _.pick(
           this.conf,
-          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv']
+          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv', 'uri']
         )
-        this.cli = await client(connConf, this.opts)
+        // backward compatibility
+        if (this.opts.mongoUri) {
+          connConf.uri = this.opts.mongoUri
+        }
+        this.cli = await client(connConf)
         this.db = this.cli.db(this.conf.database)
 
         if (!Array.isArray(this.opts.createIndexes)) {
