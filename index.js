@@ -6,7 +6,7 @@ const async = require('async')
 const Driver = require('mongodb')
 const { MongoClient, ObjectID } = Driver
 
-const Base = require('bfx-facs-base')
+const Base = require('@bitfinex/bfx-facs-base')
 const fmt = require('util').format
 
 function getFormattedURI (conf) {
