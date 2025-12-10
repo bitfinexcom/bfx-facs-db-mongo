@@ -1,6 +1,6 @@
 {
-  "name": "bfx-facs-db-mongo",
-  "version": "0.0.1",
+  "name": "@bitfinex/bfx-facs-db-mongo",
+  "version": "1.0.0",
   "private": false,
   "description": "Bitfinex MongoDB Facility",
   "author": {
@@ -17,8 +17,8 @@
     "lodash": "^4.17.21",
     "mongodb": "^3.7.3"
   },
-  "engine": {
-    "node": ">=8.0"
+  "engines": {
+    "node": ">=16.0"
   },
   "license": "Apache-2.0",
   "repository": {
