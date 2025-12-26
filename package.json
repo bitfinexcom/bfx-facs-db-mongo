@@ -15,7 +15,7 @@
     "@bitfinex/bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
     "async": "^3.2.1",
     "lodash": "^4.17.21",
-    "mongodb": "^4.1.0"
+    "mongodb": "^6.4.0"
   },
   "engines": {
     "node": ">=16.0"
