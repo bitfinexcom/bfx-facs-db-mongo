@@ -1,34 +1,41 @@
 {
   "name": "@bitfinex/bfx-facs-db-mongo",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": false,
   "description": "Bitfinex MongoDB Facility",
-  "author": {
-    "name": "prdn",
-    "email": "paolo@bitfinex.com"
-  },
-  "main": "index.js",
   "keywords": [
     "bitfinex"
   ],
-  "dependencies": {
-    "@bitfinex/bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
-    "async": "^3.2.1",
-    "lodash": "^4.17.21",
-    "mongodb": "^3.7.3"
-  },
-  "engines": {
-    "node": ">=16.0"
-  },
-  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitfinexcom/bfx-facs-db-mongo.git"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "prdn",
+    "email": "paolo@bitfinex.com"
   },
   "maintainers": [
     {
       "name": "prdn",
       "email": "paolo@bitfinex.com"
     }
-  ]
+  ],
+  "main": "index.js",
+  "scripts": {
+    "lint": "bfx-lint-js",
+    "lint:fix": "bfx-lint-js --fix"
+  },
+  "dependencies": {
+    "@bitfinex/bfx-facs-base": "^2.0.0",
+    "async": "^3.2.1",
+    "lodash": "^4.18.1",
+    "mongodb": "^3.7.3"
+  },
+  "devDependencies": {
+    "@bitfinex/lint-js": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=22.0"
+  }
 }
