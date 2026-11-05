@@ -24,11 +24,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "bfx-lint-js",
-    "lint:fix": "bfx-lint-js --fix"
+    "lint:fix": "bfx-lint-js --fix",
+    "test": "npm run lint"
   },
   "dependencies": {
-    "@bitfinex/bfx-facs-base": "^2.0.0",
-    "async": "^3.2.1",
+    "@bitfinex/bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git#v2.0.0",
+    "async": "^3.2.6",
     "lodash": "^4.18.1",
     "mongodb": "^3.7.3"
   },
