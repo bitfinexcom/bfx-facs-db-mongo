@@ -90,12 +90,12 @@ class MongoFacility extends Base {
           return
         }
         for (const ix of this.opts.createIndexes) {
-          if (!ix?.collection || typeof ix.collection !== 'string' || ix.spec?.constructor !== Object) {
+          if (!ix.collection || typeof ix.collection !== 'string' || ix.spec === null || Object.getPrototypeOf(ix.spec) !== Object.prototype) {
             throw new Error('Mongodb index must have "collection" and "spec"')
           }
         }
         for (const ix of this.opts.createIndexes) {
-          const opts = { ...(ix.opts || {}), background: !ix.flags?.forceForeground }
+          const opts = { ...(ix.opts || {}), background: !ix?.flags?.forceForeground }
           await this.db.collection(ix.collection).createIndex(ix.spec, opts)
         }
       }
