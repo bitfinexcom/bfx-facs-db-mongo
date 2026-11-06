@@ -1,6 +1,5 @@
 'use strict'
 
-const _ = require('lodash')
 const async = require('async')
 
 const Driver = require('mongodb')
@@ -74,10 +73,12 @@ class MongoFacility extends Base {
     async.series([
       next => { super._start(next) },
       async () => {
-        const connConf = _.pick(
-          this.conf,
-          ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv', 'uri']
-        )
+        const connConf = {}
+        for (const k of ['user', 'password', 'database', 'host', 'port', 'rs', 'maxPoolSize', 'authSource', 'socketTimeoutMS', 'srv', 'uri']) {
+          if (Object.hasOwn(this.conf, k)) {
+            connConf[k] = this.conf[k]
+          }
+        }
         // backward compatibility
         if (this.opts.mongoUri) {
           connConf.uri = this.opts.mongoUri
@@ -89,12 +90,12 @@ class MongoFacility extends Base {
           return
         }
         for (const ix of this.opts.createIndexes) {
-          if (!ix.collection || !_.isString(ix.collection) || !_.isPlainObject(ix.spec)) {
+          if (!ix?.collection || typeof ix.collection !== 'string' || ix.spec?.constructor !== Object) {
             throw new Error('Mongodb index must have "collection" and "spec"')
           }
         }
         for (const ix of this.opts.createIndexes) {
-          const opts = { ...(ix.opts || {}), background: !ix?.flags?.forceForeground }
+          const opts = { ...(ix.opts || {}), background: !ix.flags?.forceForeground }
           await this.db.collection(ix.collection).createIndex(ix.spec, opts)
         }
       }
