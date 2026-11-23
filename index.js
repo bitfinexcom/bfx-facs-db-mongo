@@ -9,12 +9,14 @@ const Base = require('@bitfinex/bfx-facs-base')
 const fmt = require('util').format
 
 function getFormattedURI (conf) {
-  const suffix = `authMechanism=DEFAULT&maxPoolSize=${(conf.maxPoolSize || 150)}`
+  const auth = conf.user ? `${conf.user}:${conf.password}@` : ''
+  const mechanism = conf.user ? 'authMechanism=DEFAULT&' : ''
+  const suffix = `${mechanism}maxPoolSize=${(conf.maxPoolSize || 150)}`
 
   const { srv } = conf
   return fmt(
-    `mongodb${srv ? '+srv' : ''}://%s:%s@%s%s/%s?${suffix}`,
-    conf.user, conf.password, conf.host, srv ? '' : `:${conf.port}`, conf.database
+    `mongodb${srv ? '+srv' : ''}://${auth}%s%s/%s?${suffix}`,
+    conf.host, srv ? '' : `:${conf.port}`, conf.database
   )
 }
 
