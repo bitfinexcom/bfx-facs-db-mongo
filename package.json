@@ -25,7 +25,7 @@
   "scripts": {
     "lint": "bfx-lint-js",
     "lint:fix": "bfx-lint-js --fix",
-    "test": "npm run lint"
+    "test": "npm run lint && node --test"
   },
   "dependencies": {
     "@bitfinex/bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git#v2.0.0",

@@ -8,15 +8,21 @@ const { MongoClient, ObjectID } = Driver
 const Base = require('@bitfinex/bfx-facs-base')
 const fmt = require('util').format
 
-function getFormattedURI (conf) {
-  const auth = conf.user ? `${conf.user}:${conf.password}@` : ''
-  const mechanism = conf.user ? 'authMechanism=DEFAULT&' : ''
-  const suffix = `${mechanism}maxPoolSize=${(conf.maxPoolSize || 150)}`
+const DEFAULT_MAX_POOL_SIZE = 150
 
-  const { srv } = conf
+// Every value goes through fmt arguments: a value inside the format string
+// would have its % sequences (e.g. a password with "%d") interpreted.
+function getFormattedURI (conf) {
+  const { srv, user } = conf
   return fmt(
-    `mongodb${srv ? '+srv' : ''}://${auth}%s%s/%s?${suffix}`,
-    conf.host, srv ? '' : `:${conf.port}`, conf.database
+    '%s://%s%s%s/%s?%smaxPoolSize=%s',
+    srv ? 'mongodb+srv' : 'mongodb',
+    user ? fmt('%s:%s@', user, conf.password) : '',
+    conf.host,
+    srv ? '' : fmt(':%s', conf.port),
+    conf.database,
+    user ? 'authMechanism=DEFAULT&' : '',
+    conf.maxPoolSize || DEFAULT_MAX_POOL_SIZE
   )
 }
 
@@ -118,3 +124,4 @@ class MongoFacility extends Base {
 }
 
 module.exports = MongoFacility
+module.exports.getFormattedURI = getFormattedURI
