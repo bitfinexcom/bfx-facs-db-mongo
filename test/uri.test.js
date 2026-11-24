@@ -25,9 +25,14 @@ test('getFormattedURI', async (t) => {
       expected: 'mongodb://db.local:27017/app?maxPoolSize=150'
     },
     {
-      name: 'format specifiers in values are kept literally',
+      name: 'format specifiers are not interpreted',
       conf: { ...base, user: 'u%s', password: 'p%d%c%%%j', database: 'd%o' },
-      expected: 'mongodb://u%s:p%d%c%%%j@db.local:27017/d%o?authMechanism=DEFAULT&maxPoolSize=150'
+      expected: 'mongodb://u%25s:p%25d%25c%25%25%25j@db.local:27017/d%o?authMechanism=DEFAULT&maxPoolSize=150'
+    },
+    {
+      name: 'reserved characters in credentials are percent-encoded',
+      conf: { ...base, user: 'a@b:c', password: 'p@ss:w/rd?#' },
+      expected: 'mongodb://a%40b%3Ac:p%40ss%3Aw%2Frd%3F%23@db.local:27017/app?authMechanism=DEFAULT&maxPoolSize=150'
     },
     {
       name: 'srv omits the port',
