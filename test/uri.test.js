@@ -3,7 +3,7 @@
 const { test } = require('node:test')
 const assert = require('node:assert/strict')
 
-const { getFormattedURI } = require('../index')
+const { getFormattedURI } = require('../utils')
 
 const base = { host: 'db.local', port: 27017, database: 'app' }
 
