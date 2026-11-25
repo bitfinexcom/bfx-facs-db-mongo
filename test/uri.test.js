@@ -1,7 +1,6 @@
 'use strict'
 
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
+const test = require('brittle')
 
 const { getFormattedURI } = require('../utils')
 
@@ -52,8 +51,8 @@ test('getFormattedURI', async (t) => {
   ]
 
   for (const { name, conf, expected } of cases) {
-    await t.test(name, () => {
-      assert.equal(getFormattedURI(conf), expected)
+    await t.test(name, (t) => {
+      t.is(getFormattedURI(conf), expected)
     })
   }
 })
