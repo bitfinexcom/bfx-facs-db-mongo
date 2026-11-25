@@ -1,6 +1,6 @@
 {
   "name": "@bitfinex/bfx-facs-db-mongo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": false,
   "description": "Bitfinex MongoDB Facility",
   "keywords": [
