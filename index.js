@@ -6,17 +6,7 @@ const Driver = require('mongodb')
 const { MongoClient, ObjectID } = Driver
 
 const Base = require('@bitfinex/bfx-facs-base')
-const fmt = require('util').format
-
-function getFormattedURI (conf) {
-  const suffix = `authMechanism=DEFAULT&maxPoolSize=${(conf.maxPoolSize || 150)}`
-
-  const { srv } = conf
-  return fmt(
-    `mongodb${srv ? '+srv' : ''}://%s:%s@%s%s/%s?${suffix}`,
-    conf.user, conf.password, conf.host, srv ? '' : `:${conf.port}`, conf.database
-  )
-}
+const { getFormattedURI } = require('./utils')
 
 function client (conf) {
   let url = (conf.uri)
